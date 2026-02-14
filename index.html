@@ -1,0 +1,513 @@
+```html
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="MOON_BASE — club de réflexion communautaire pour une étude concrète d'une installation humaine sur Mars. Go To The Moon." />
+  <title>MOON_BASE — Mars Think Tank</title>
+
+  <style>
+    :root{
+      --bg:#070A12;
+      --card:rgba(255,255,255,.06);
+      --card2:rgba(255,255,255,.08);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.68);
+      --line:rgba(255,255,255,.12);
+      --accent1:rgba(41,231,161,.95);
+      --accent2:rgba(80,120,255,.95);
+      --shadow:0 18px 60px rgba(0,0,0,.45);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 600px at 18% 10%, rgba(80,120,255,.22), transparent 55%),
+        radial-gradient(700px 500px at 82% 20%, rgba(41,231,161,.18), transparent 55%),
+        radial-gradient(900px 700px at 50% 100%, rgba(255,92,122,.10), transparent 60%),
+        var(--bg);
+      overflow-x:hidden;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1120px; margin:0 auto; padding:28px 18px 90px}
+
+    /* NAV */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(7,10,18,.65);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-inner{
+      max-width:1120px; margin:0 auto; padding:14px 18px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px}
+    .logo{
+      width:34px; height:34px; border-radius:10px;
+      background:
+        radial-gradient(14px 14px at 30% 30%, rgba(255,255,255,.9), transparent 60%),
+        linear-gradient(135deg, rgba(41,231,161,.9), rgba(80,120,255,.9));
+      box-shadow: 0 10px 30px rgba(41,231,161,.18);
+    }
+    .badge{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      color:rgba(255,255,255,.78);
+      background: rgba(255,255,255,.03);
+      white-space:nowrap;
+    }
+    .nav-links{display:flex; gap:14px; flex-wrap:wrap; justify-content:flex-end}
+    .nav-links a{padding:8px 10px; border-radius:12px; color:var(--muted)}
+    .nav-links a:hover{background:var(--card); color:var(--text)}
+    @media (max-width: 900px){ .nav-links{display:none} }
+
+    /* UI */
+    .card{
+      background: linear-gradient(180deg, var(--card), rgba(255,255,255,.03));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding:18px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:18px;
+      align-items:stretch;
+    }
+    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
+
+    h1{
+      margin:10px 0 10px;
+      font-size: clamp(30px, 4.3vw, 50px);
+      line-height:1.02;
+      letter-spacing: -.7px;
+    }
+    h2{margin:0; font-size:18px; letter-spacing:.2px}
+    p{margin:10px 0; color:var(--muted); line-height:1.6}
+
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 12px; border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      flex-wrap:wrap;
+    }
+    .pill b{color:var(--text)}
+    .kicker{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+    .btns{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px}
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:12px 14px;
+      border-radius:14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-weight:700;
+      transition: transform .12s ease, background .12s ease;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.09)}
+    .btn.primary{
+      border-color: rgba(41,231,161,.35);
+      background: linear-gradient(135deg, rgba(41,231,161,.22), rgba(80,120,255,.18));
+    }
+
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12.5px;
+      color: rgba(255,255,255,.82);
+      word-break: break-all;
+    }
+    .kv{display:grid; gap:10px; margin-top:8px}
+    .kv .row{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+      padding:10px 12px; border-radius:14px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .kv .row span{color:var(--muted)}
+    .kv .row b{color:var(--text)}
+    .copy{
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      border-radius:12px;
+      padding:10px 12px;
+      display:flex; align-items:center; gap:10px;
+    }
+    .mini{font-size:13px; color:rgba(255,255,255,.62)}
+    .sections{margin-top:18px; display:grid; gap:18px}
+    .two{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+    @media (max-width: 900px){ .two{grid-template-columns:1fr} }
+    .list{margin:0; padding-left:18px; color:var(--muted); line-height:1.65}
+    .section-title{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px}
+    .warn{
+      border:1px solid rgba(255,209,102,.26);
+      background: linear-gradient(180deg, rgba(255,209,102,.10), rgba(255,255,255,.03));
+    }
+    .footer{
+      margin-top:22px;
+      padding-top:18px;
+      border-top: 1px solid var(--line);
+      color: rgba(255,255,255,.60);
+      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    }
+    .toast{
+      position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+      background: rgba(0,0,0,.6);
+      border:1px solid rgba(255,255,255,.14);
+      padding:10px 12px;
+      border-radius:999px;
+      color: rgba(255,255,255,.86);
+      backdrop-filter: blur(10px);
+      display:none;
+      z-index:999;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="nav">
+    <div class="nav-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>MOON_BASE</div>
+        <span class="badge">Mars Think Tank</span>
+      </div>
+
+      <div class="nav-links">
+        <a href="#mission">Mission</a>
+        <a href="#programme">Programme</a>
+        <a href="#poles">Pôles</a>
+        <a href="#livrables">Livrables</a>
+        <a href="#join">Rejoindre</a>
+      </div>
+
+      <a class="btn" href="#join">Participer</a>
+    </div>
+  </div>
+
+  <main class="container">
+    <!-- HERO -->
+    <section class="hero" id="top" style="padding:32px 0 8px;">
+      <div class="grid">
+        <div class="card">
+          <div class="pill">
+            🚀 <b>Go To The Moon</b> — club de réflexion communautaire pour <b>construire une étude concrète</b> d’une installation humaine sur Mars.
+          </div>
+
+          <h1>MOON_BASE<br/>Build the Mars Base Plan.</h1>
+
+          <p>
+            MOON_BASE est un club de réflexion ouvert qui organise la communauté pour produire des livrables
+            vérifiables : choix de site, climat, ressources (ISRU), énergie, habitat, logistique.
+            Notre objectif : avancer par <b>modules</b>, avec des <b>sources</b>, des <b>revues</b> et des <b>rapports publics</b>.
+          </p>
+
+          <div class="kicker">
+            <span class="badge">Débats structurés</span>
+            <span class="badge">Challenges hebdo</span>
+            <span class="badge">Rapport mensuel</span>
+            <span class="badge">Review & sources</span>
+          </div>
+
+          <div class="btns">
+            <!-- Remplace ces liens -->
+            <a class="btn primary" href="#" target="_blank" rel="noopener">💬 Discord</a>
+            <a class="btn" href="#" target="_blank" rel="noopener">𝕏 Twitter</a>
+            <a class="btn" href="#" target="_blank" rel="noopener">📄 Docs / Wiki</a>
+            <a class="btn" href="#" target="_blank" rel="noopener">🧰 GitHub</a>
+          </div>
+
+          <p class="mini">
+            *Disclaimer : contenu éducatif et communautaire. Ceci n’est pas un conseil financier.
+          </p>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="card">
+          <div class="section-title">
+            <h2>Infos rapides</h2>
+            <span class="badge">Solana</span>
+          </div>
+
+          <div class="kv">
+            <div class="row">
+              <span>Slogan</span>
+              <b>Go To The Moon</b>
+            </div>
+            <div class="row">
+              <span>Nature</span>
+              <b>Club de réflexion</b>
+            </div>
+            <div class="row">
+              <span>Focus</span>
+              <b>Étude “Mars Base”</b>
+            </div>
+            <div class="row">
+              <span>Mint (MOON_BASE)</span>
+              <b class="mono" id="mint">ExK7oCZwZ1u5yzcpAGULHDtzSTc1disC28qcH9HAL6DR</b>
+            </div>
+          </div>
+
+          <div style="margin-top:12px; display:grid; gap:10px;">
+            <div class="copy" onclick="copyMint()">
+              <span>📋</span>
+              <div>
+                <div style="font-weight:750">Copier le mint</div>
+                <div class="mini">Clique pour copier l’adresse</div>
+              </div>
+            </div>
+
+            <!-- Remplace par tes liens d’explorateur / chart -->
+            <a class="btn" href="#" target="_blank" rel="noopener">🔎 Explorer</a>
+            <a class="btn" href="#" target="_blank" rel="noopener">📈 Chart (DEX)</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MISSION -->
+    <section id="mission" class="sections">
+      <div class="two">
+        <div class="card">
+          <div class="section-title">
+            <h2>Mission</h2>
+            <span class="badge">Pourquoi</span>
+          </div>
+          <p>
+            Produire une étude progressive, lisible et sourcée d’une installation humaine sur Mars :
+            <b>où</b> s’installer, <b>avec quelles ressources</b>, <b>quelle énergie</b>, <b>quel habitat</b>, et <b>quelle logistique</b>.
+          </p>
+          <ul class="list">
+            <li>Un cadre de discussion structuré (pas du blabla infini).</li>
+            <li>Des mini-missions actionnables (challenges).</li>
+            <li>Une revue par les pairs (peer review) avant publication.</li>
+            <li>Des livrables publics : rapports, cartes, schémas, estimations.</li>
+          </ul>
+        </div>
+
+        <div class="card warn">
+          <div class="section-title">
+            <h2>Valeurs</h2>
+            <span class="badge">Méthode</span>
+          </div>
+          <ul class="list">
+            <li><b>Concret</b> : chaque mois = un module terminé (même imparfait).</li>
+            <li><b>Sourcé</b> : liens vers publications/rapports (NASA/ESA, papers, datasets).</li>
+            <li><b>Transparent</b> : décisions et roadmap publiques.</li>
+            <li><b>Ouvert</b> : tout le monde peut contribuer, reviewer, améliorer.</li>
+          </ul>
+          <p class="mini">
+            Astuce : ajoute ici un lien vers une page “Méthodologie” (format des rapports, règles de review, sources acceptées).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRAMME -->
+    <section id="programme" class="sections">
+      <div class="card">
+        <div class="section-title">
+          <h2>Programme</h2>
+          <span class="badge">Rythme</span>
+        </div>
+
+        <div class="two">
+          <div class="card" style="box-shadow:none; background:rgba(255,255,255,.03)">
+            <b>Chaque semaine</b>
+            <ul class="list">
+              <li>1 challenge (30–90 min de boulot)</li>
+              <li>1 vocal “review” (30–45 min)</li>
+              <li>1 synthèse courte (post public)</li>
+            </ul>
+          </div>
+
+          <div class="card" style="box-shadow:none; background:rgba(255,255,255,.03)">
+            <b>Chaque mois</b>
+            <ul class="list">
+              <li>1 module “Mars Base Study” terminé</li>
+              <li>1 rapport PDF (v1 → v2…)</li>
+              <li>1 live de présentation + vote du module suivant</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="mini">
+          Tu peux remplacer ce planning par ton vrai calendrier (ex: “vocal le dimanche 21h”).
+        </p>
+      </div>
+    </section>
+
+    <!-- POLES -->
+    <section id="poles" class="sections">
+      <div class="card">
+        <div class="section-title">
+          <h2>Pôles de recherche</h2>
+          <span class="badge">Squads</span>
+        </div>
+
+        <div class="two">
+          <div class="card" style="box-shadow:none; background:rgba(255,255,255,.03)">
+            <b>🌪️ Climat & risques</b>
+            <ul class="list">
+              <li>températures, tempêtes de poussière, radiations</li>
+              <li>risques opérationnels & mitigation</li>
+              <li>contraintes de design (habitat, EVA)</li>
+            </ul>
+          </div>
+
+          <div class="card" style="box-shadow:none; background:rgba(255,255,255,.03)">
+            <b>💧 Ressources & ISRU</b>
+            <ul class="list">
+              <li>eau (glace), régolithe, CO₂</li>
+              <li>extraction, purification, rendement</li>
+              <li>flux matières (inputs/outputs)</li>
+            </ul>
+          </div>
+
+          <div class="card" style="box-shadow:none; background:rgba(255,255,255,.03)">
+            <b>⚡ Énergie & infrastructures</b>
+            <ul class="list">
+              <li>solaire, nucléaire, stockage</li>
+              <li>redondance, pannes, maintenance</li>
+              <li>puissance nécessaire par module</li>
+            </ul>
+          </div>
+
+          <div class="card" style="box-shadow:none; background:rgba(255,255,255,.03)">
+            <b>🏠 Habitat & support-vie</b>
+            <ul class="list">
+              <li>ECLSS, recyclage, pression</li>
+              <li>matériaux, blindage, architecture</li>
+              <li>conditions humaines (santé, ergonomie)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIVRABLES -->
+    <section id="livrables" class="sections">
+      <div class="card">
+        <div class="section-title">
+          <h2>Livrables</h2>
+          <span class="badge">Public</span>
+        </div>
+
+        <div class="two">
+          <div>
+            <p><b>Ce qu’on publie</b></p>
+            <ul class="list">
+              <li>Rapport mensuel “Mars Base Study” (PDF)</li>
+              <li>Carte(s) des sites candidats + justification</li>
+              <li>Estimations : énergie, eau, masse, redondance</li>
+              <li>Schémas d’habitat & de process ISRU</li>
+            </ul>
+          </div>
+
+          <div>
+            <p><b>Règles simples</b></p>
+            <ul class="list">
+              <li>Sources obligatoires (liens)</li>
+              <li>Versioning (v1, v2…)</li>
+              <li>Peer review avant publication</li>
+              <li>Résumé accessible (pour le grand public)</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="mini">
+          Ajoute ici un lien vers un dossier “Rapports” et un “Dashboard” quand tu les as.
+        </p>
+      </div>
+    </section>
+
+    <!-- JOIN -->
+    <section id="join" class="sections">
+      <div class="card">
+        <div class="section-title">
+          <h2>Rejoindre MOON_BASE</h2>
+          <span class="badge">3 étapes</span>
+        </div>
+
+        <div class="two">
+          <div class="card" style="box-shadow:none; background:rgba(255,255,255,.03)">
+            <b>1) Choisis une squad</b>
+            <p class="mini">Climat • Ressources • Énergie • Habitat</p>
+          </div>
+
+          <div class="card" style="box-shadow:none; background:rgba(255,255,255,.03)">
+            <b>2) Prends un challenge</b>
+            <p class="mini">Une tâche courte, sourcée, actionnable.</p>
+          </div>
+
+          <div class="card" style="box-shadow:none; background:rgba(255,255,255,.03)">
+            <b>3) Publie & review</b>
+            <p class="mini">On améliore ensemble → livrable mensuel.</p>
+          </div>
+
+          <div class="card" style="box-shadow:none; background:rgba(255,255,255,.03)">
+            <b>Liens</b>
+            <div class="btns" style="margin-top:10px">
+              <!-- Remplace ces liens -->
+              <a class="btn primary" href="#" target="_blank" rel="noopener">💬 Discord</a>
+              <a class="btn" href="#" target="_blank" rel="noopener">𝕏 Twitter</a>
+              <a class="btn" href="#" target="_blank" rel="noopener">📄 Docs / Wiki</a>
+              <a class="btn" href="#" target="_blank" rel="noopener">🧰 GitHub</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <div>© <span id="year"></span> MOON_BASE — Go To The Moon.</div>
+          <div class="mini">Mint Solana: <span class="mono">ExK7oCZwZ1u5yzcpAGULHDtzSTc1disC28qcH9HAL6DR</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast">Copié ✅</div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    async function copyMint(){
+      const mint = document.getElementById("mint").textContent.trim();
+      try{
+        await navigator.clipboard.writeText(mint);
+        showToast("Mint copié ✅");
+      }catch(e){
+        const ta = document.createElement("textarea");
+        ta.value = mint;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        showToast("Mint copié ✅");
+      }
+    }
+
+    let toastTimer = null;
+    function showToast(msg){
+      const el = document.getElementById("toast");
+      el.textContent = msg;
+      el.style.display = "block";
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>{ el.style.display = "none"; }, 1600);
+    }
+  </script>
+</body>
+</html>
+```
+
