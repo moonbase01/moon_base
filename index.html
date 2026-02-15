@@ -179,8 +179,46 @@ s```html
     }
   </style>
 </head>
-
 <body>
+  <div id="chartModal" style="display:none; position:fixed; inset:0; z-index:9999;">
+  <div onclick="closeChart()" style="position:absolute; inset:0; background:rgba(0,0,0,.65); backdrop-filter: blur(6px);"></div>
+  <div style="
+    position:relative;
+    width:min(1100px, 94vw);
+    height:min(720px, 84vh);
+    margin:6vh auto;
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:18px;
+    overflow:hidden;
+    background:rgba(10,12,20,.92);
+    box-shadow: 0 18px 60px rgba(0,0,0,.55);
+  ">
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.12);">
+      <div style="font-weight:750;">📈 Cotation MOON_BASE</div>
+      <button class="btn" onclick="closeChart()" style="padding:8px 12px;">✕</button>
+    </div>
+    <iframe
+      id="chartFrame"
+      src="CHART_URL_ICI"
+      style="width:100%; height:calc(100% - 54px); border:0;"
+      loading="lazy"
+      referrerpolicy="no-referrer"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+    ></iframe>
+    <div style="padding:10px 14px; border-top:1px solid rgba(255,255,255,.12); color:rgba(255,255,255,.65); font-size:13px;">
+      Si le graphique ne s’affiche pas ici, ouvre-le :
+      <a id="chartLink" href="CHART_URL_ICI" target="_blank" rel="noopener" style="text-decoration:underline;">dans un nouvel onglet</a>.
+    </div>
+  </div>
+</div>
+<script>
+  function openChart(){
+    document.getElementById("chartModal").style.display = "block";
+  }
+  function closeChart(){
+    document.getElementById("chartModal").style.display = "none";
+  }
+</script>
   <div class="nav">
     <div class="nav-inner">
       <div class="brand">
