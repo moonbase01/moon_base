@@ -269,6 +269,8 @@ s```html
             <a class="btn" href="#" target="_blank" rel="noopener">𝕏 Twitter</a>
             <a class="btn" href="#" target="_blank" rel="noopener">📄 Docs / Wiki</a>
             <a class="btn" href="#" target="_blank" rel="noopener">🧰 GitHub</a>
+            <button class="btn" id="openChartBtn" type="button">📈 Cotation</button>
+
             <a class="btn" href="https://github.com/moonbase01/moon_base/discussions" target="_blank" rel="noopener">💡 Forum (Reservation Crypto 'BASE')</a>
           </div>
 
@@ -550,6 +552,53 @@ s```html
       toastTimer = setTimeout(()=>{ el.style.display = "none"; }, 1600);
     }
   </script>
+  <div id="chartModal" style="display:none; position:fixed; inset:0; z-index:9999;">
+  <div id="chartBackdrop" style="position:absolute; inset:0; background:rgba(0,0,0,.65); backdrop-filter: blur(6px);"></div>
+
+  <div style="
+    position:relative;
+    width:min(1100px, 94vw);
+    height:min(720px, 84vh);
+    margin:6vh auto;
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:18px;
+    overflow:hidden;
+    background:rgba(10,12,20,.92);
+    box-shadow: 0 18px 60px rgba(0,0,0,.55);
+  ">
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.12);">
+      <div style="font-weight:750;">📈 Cotation (test)</div>
+      <button class="btn" id="closeChartBtn" type="button" style="padding:8px 12px;">✕</button>
+    </div>
+
+    <!-- TEST : si tu vois ce texte, la fenêtre marche -->
+    <div style="padding:16px; color:rgba(255,255,255,.8);">
+      ✅ La fenêtre fonctionne. Prochaine étape : mettre l’iframe du graphique ici.
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const modal = document.getElementById("chartModal");
+    const openBtn = document.getElementById("openChartBtn");
+    const closeBtn = document.getElementById("closeChartBtn");
+    const backdrop = document.getElementById("chartBackdrop");
+
+    function openModal(){ modal.style.display = "block"; }
+    function closeModal(){ modal.style.display = "none"; }
+
+    openBtn.addEventListener("click", openModal);
+    closeBtn.addEventListener("click", closeModal);
+    backdrop.addEventListener("click", closeModal);
+
+    // touche Escape pour fermer
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+  })();
+</script>
+
 </body>
 </html>
 ```
