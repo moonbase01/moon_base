@@ -240,7 +240,8 @@ s```html
         <a href="#join">Rejoindre</a>
       </div>
 
-      <a class="btn" href="#join">Participer</a>
+     <button class="btn" id="openChartBtn" type="button">📈 Cotation</button>
+
     </div>
   </div>
 
@@ -601,6 +602,54 @@ s```html
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") closeModal();
     });
+  })();
+</script>
+<div id="chartModal" style="display:none; position:fixed; inset:0; z-index:9999;">
+  <div id="chartBackdrop" style="position:absolute; inset:0; background:rgba(0,0,0,.65); backdrop-filter: blur(6px);"></div>
+
+  <div style="
+    position:relative;
+    width:min(1100px, 94vw);
+    height:min(720px, 84vh);
+    margin:6vh auto;
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:18px;
+    overflow:hidden;
+    background:rgba(10,12,20,.92);
+    box-shadow: 0 18px 60px rgba(0,0,0,.55);
+  ">
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.12);">
+      <div style="font-weight:750;">📈 Cotation MOON_BASE</div>
+      <button class="btn" id="closeChartBtn" type="button" style="padding:8px 12px;">✕</button>
+    </div>
+
+    <iframe
+      src="https://birdeye.so/solana/token/ExK7oCZwZ1u5yzcpAGULHDtzSTc1disC28qcH9HAL6DR"
+      style="width:100%; height:calc(100% - 54px); border:0;"
+      loading="lazy"
+    ></iframe>
+
+    <div style="padding:10px 14px; border-top:1px solid rgba(255,255,255,.12); color:rgba(255,255,255,.65); font-size:13px;">
+      Si le graphique ne s’affiche pas ici, ouvre-le :
+      <a href="https://birdeye.so/solana/token/ExK7oCZwZ1u5yzcpAGULHDtzSTc1disC28qcH9HAL6DR" target="_blank" rel="noopener" style="text-decoration:underline;">dans un nouvel onglet</a>.
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    const modal = document.getElementById("chartModal");
+    const openBtn = document.getElementById("openChartBtn");
+    const closeBtn = document.getElementById("closeChartBtn");
+    const backdrop = document.getElementById("chartBackdrop");
+
+    function openModal(){ modal.style.display = "block"; }
+    function closeModal(){ modal.style.display = "none"; }
+
+    openBtn.addEventListener("click", openModal);
+    closeBtn.addEventListener("click", closeModal);
+    backdrop.addEventListener("click", closeModal);
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
   })();
 </script>
 
